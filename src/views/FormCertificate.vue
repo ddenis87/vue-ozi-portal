@@ -129,13 +129,13 @@
                        small
                        height="22"
                        color="blue darken-3"
-                       @click="onFormClear">Очистить</v-btn>
+                       @click="onClearForm">Очистить</v-btn>
                 <v-btn :dark="!isDisabledSend"
                        small
                        height="22"
                        color="blue darken-3"
                        :disabled="isDisabledSend"
-                       @click="onFormSend">Подать сведения</v-btn>
+                       @click="onSendForm">Подать сведения</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -146,6 +146,8 @@
 </template>
 
 <script>
+import apiDB from '../api/apiDB';
+
 export default {
   name: 'FormCertificate',
   data() {
@@ -171,10 +173,15 @@ export default {
     checkLengthValue(v, length, title) {
       return v.length === length || title;
     },
-    onFormClear() {
+    onClearForm() {
       this.$refs.CertificateData.reset();
     },
-    onFormSend() {
+    onSendForm() {
+      const sendForm = {
+        snils: this.userData.oSNILS,
+        userData: JSON.stringify(this.userData),
+      };
+      apiDB.sendForm(sendForm);
       // if (this.$refs.CertificateData.validate()) {
       // }
     },
